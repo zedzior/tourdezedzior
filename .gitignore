@@ -222,11 +222,7 @@ dane
 .virtual-env
 venv
 csv
-backup.py
-fotki
-transformed
 testy.py
-product_images
 =======
 .dmypy.json
 dmypy.json

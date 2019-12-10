@@ -1,25 +1,37 @@
+import datetime
 import requests
 import csv
 import bs4
-from utils import take_out_time, convert_time, take_out_number
+from utils import take_out_time, take_out_number
 
+
+# create url query on azair.eu
 from_code = 'WRO'
 to_code = 'XXX'
 oneway = {0: 'oneway', 1: 'return'}
-from_date = '2019-12-02'
-to_date = '2019-12-31'
+from_date = datetime.date(2019, 12, 29)
+to_date = datetime.date(2020, 1, 3)
 min_days = 5
 max_days = 8
-min_stopover = '0:45'
-max_stopover = '23:30'
-max_there_flight = '10:00'
-max_back_flight = '10:00'
+min_stopover = datetime.time(0, 45)
+max_stopover = datetime.time(23, 30)
+max_there_flight = datetime.time(10, 0)
+max_back_flight = datetime.time(10, 0)
 number_people = 2
 max_change = 1
 currency = 'PLN'
 
 
-def get_flights():
+azair_url = f'http://www.azair.eu/azfin.php?searchtype=flexi&tp=0&isOneway={oneway[1]}&srcAirport=%5B{from_code}%5D&' \
+      f'dstAirport=%5B{to_code}%5D&depdate={from_date.isoformat()}&&arrdate={to_date.isoformat()}&minDaysStay={str(min_days)}&maxDaysStay={str(max_days)}&' \
+      f'dep0=true&dep1=true&dep2=true&dep3=true&dep4=true&dep5=true&dep6=true&arr0=true&arr1=true&arr2=true&arr3=true&arr4=true&arr5=true&arr6=true&' \
+      f'samedep=true&samearr=true&minHourStay={min_stopover.strftime("%H:%M")}&maxHourStay={max_stopover.strftime("%H:%M")}&maxHourOutbound={max_there_flight.strftime("%H:%M")}&' \
+      f'maxHourInbound={max_back_flight.strftime("%H:%M")}&autoprice=true&adults={str(number_people)}&maxChng={str(max_change)}&' \
+      f'currency={currency}&indexSubmit=Search'
+print(azair_url)
+
+
+def get_flights(url):
     # get source code of search results on azair.eu
     source_code = requests.get(url)
     soup = bs4.BeautifulSoup(source_code.text, 'lxml')
@@ -66,18 +78,9 @@ def get_flights():
         database.append(result)
 
 
-# create url query on azair.eu
-url = f'http://www.azair.eu/azfin.php?searchtype=flexi&tp=0&isOneway={oneway[1]}&srcAirport=%5B{from_code}%5D&' \
-      f'dstAirport=%5B{to_code}%5D&depdate={from_date}&&arrdate={to_date}&minDaysStay={str(min_days)}&maxDaysStay={str(max_days)}&' \
-      f'dep0=true&dep1=true&dep2=true&dep3=true&dep4=true&dep5=true&dep6=true&arr0=true&arr1=true&arr2=true&arr3=true&arr4=true&arr5=true&arr6=true&' \
-      f'samedep=true&samearr=true&minHourStay={convert_time(min_stopover)}&maxHourStay={convert_time(max_stopover)}&maxHourOutbound={convert_time(max_there_flight)}&' \
-      f'maxHourInbound={convert_time(max_back_flight)}&autoprice=true&adults={str(number_people)}&maxChng={str(max_change)}&' \
-      f'currency={currency}&indexSubmit=Search'
-print(url)
-
 if __name__ == '__main__':
     database = []
-    get_flights()
-    with open('test.csv', 'w', newline='', encoding='UTF-8') as fp:
+    get_flights(azair_url)
+    with open('assets/csv/azair.csv', 'w', newline='', encoding='UTF-8') as fp:
         myFile = csv.writer(fp)
         myFile.writerows(database)

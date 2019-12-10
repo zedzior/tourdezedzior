@@ -14,3 +14,4 @@ def take_out_letters(input: str):
 
 def take_out_number(input: str):
     return float(''.join((filter(lambda x: x in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.'], input))))
+
