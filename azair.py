@@ -4,7 +4,7 @@ import csv
 import bs4
 import traceback
 
-from utils import take_out_time, take_out_number, connect_to_db, convert_date
+from utils import take_out_time, take_out_number, convert_date
 
 
 # create url query on azair.eu

@@ -7,8 +7,8 @@ import traceback
 
 
 # create url query on booking.com
-checkin = datetime.date(2020, 2, 14)
-checkout = datetime.date(2020, 2, 20)
+from_date = datetime.date(2020, 2, 14)
+to_date = datetime.date(2020, 2, 20)
 number_people = 4
 rooms = 1
 city = 'Ateny'
@@ -16,10 +16,10 @@ center_distance = 1
 review = 8
 
 
-def build_booking_url(checkin, checkout, number_people, rooms, city, center_distance, review):
-    booking_url = f'https://www.booking.com/searchresults.pl.html?tmpl=searchresults&checkin_month={checkin.month}&' \
-                  f'checkin_monthday={checkin.day}&checkin_year={checkin.year}&checkout_month={checkout.month}&' \
-                  f'checkout_monthday={checkout.day}&checkout_year={checkout.year}&group_adults={str(number_people)}&' \
+def build_booking_url(from_date, to_date, number_people, rooms, city, center_distance, review):
+    booking_url = f'https://www.booking.com/searchresults.pl.html?tmpl=searchresults&checkin_month={from_date.month}&' \
+                  f'checkin_monthday={from_date.day}&checkin_year={from_date.year}&checkout_month={to_date.month}&' \
+                  f'checkout_monthday={to_date.day}&checkout_year={to_date.year}&group_adults={str(number_people)}&' \
                   f'no_rooms={str(rooms)}&sb_price_type=total&ss={city}&nflt=distance={str(center_distance)}000;' \
                   f'review_score={review}0;order=price'
     print(booking_url)
@@ -27,7 +27,6 @@ def build_booking_url(checkin, checkout, number_people, rooms, city, center_dist
 
 
 def get_booking_offers(url: str, database: list, driver):
-    city = url.split('ss=')[1][:3]
     driver.get(url)
     source_code = driver.page_source
     soup = bs4.BeautifulSoup(source_code, 'html.parser')
@@ -42,7 +41,7 @@ def get_booking_offers(url: str, database: list, driver):
                 distance = get_distance(offer)
                 rank = float(offer.find('div', {'class': 'bui-review-score__badge'}).text.replace(',', '.'))
                 price = take_out_number(offer.find('div', {'class': 'bui-price-display__value prco-inline-block-maker-helper'}).text)
-                record = [city, hotel_name, rank, price, distance, longitiude, latitiude, link]
+                record = [hotel_name, rank, price, distance, longitiude, latitiude, link]
                 print(record)
                 database.append(record)
         except:
@@ -64,7 +63,7 @@ def get_distance(soup):
 
 if __name__ == '__main__':
     booking_database = []
-    booking_url = build_booking_url(checkin, checkout, number_people, rooms, city, center_distance, review)
+    booking_url = build_booking_url(from_date, to_date, number_people, rooms, city, center_distance, review)
     with open_browser() as driver:
         get_booking_offers(booking_url, booking_database, driver)
     with open('assets/csv/booking.csv', 'w', newline='', encoding='UTF-8') as fp:

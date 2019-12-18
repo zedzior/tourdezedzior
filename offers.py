@@ -1,0 +1,44 @@
+import datetime
+import csv
+from booking import build_booking_url, get_booking_offers
+from azair import build_azair_url, get_flights
+from utils import open_browser
+
+from_code = 'WRO'
+to_code = 'XXX'
+oneway = {0: 'oneway', 1: 'return'}
+from_date = datetime.date(2020, 2, 14)
+to_date = datetime.date(2020, 2, 20)
+min_days = 5
+max_days = 8
+min_stopover = datetime.time(0, 45)
+max_stopover = datetime.time(23, 30)
+max_there_flight = datetime.time(10, 0)
+max_back_flight = datetime.time(10, 0)
+number_people = 2
+max_change = 1
+currency = 'PLN'
+
+rooms = 1
+center_distance = 1
+review = 8
+
+
+if __name__ == '__main__':
+    # build url for azair.eu with all parameters and get list of flights
+    flight_list = []
+    azair_url = build_azair_url(oneway, from_code, to_code, from_date, to_date, min_days, max_days, min_stopover,
+                                max_stopover, max_there_flight, max_back_flight, number_people, max_change, currency)
+    get_flights(azair_url, flight_list)
+    # loop through flight list and add accomodation offers form booking.com
+    offer_list = []
+    with open_browser() as driver:
+        for flight in flight_list:
+            temp_list = []
+            booking_url = build_booking_url(from_date, to_date, number_people, rooms, flight[6], center_distance, review)
+            get_booking_offers(booking_url, temp_list, driver)
+            for offer in temp_list:
+                offer_list.append(flight+offer)
+    with open('assets/csv/offers.csv', 'w', newline='', encoding='UTF-8') as fp:
+        myFile = csv.writer(fp)
+        myFile.writerows(offer_list)
