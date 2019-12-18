@@ -223,6 +223,7 @@ dane
 venv
 csv
 testy.py
+queries.sql
 =======
 .dmypy.json
 dmypy.json
