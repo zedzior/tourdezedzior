@@ -12,7 +12,7 @@
     {% for item in offers %}
         <li>
             <div>
-                <b>{{item[1]}}</b> na {{item[2]}} dni za {{item[0]}} PLN. <a href="{{item[3]}}" target="_blank">Booking link</a>, <a href="{{url_for('city', city = item[1])}}">More in {{item[1]}}</a>
+                <b>{{item[1]}}</b> na {{item[2]}} dni za {{item[0]}} PLN. <a href="{{item[3]}}" target="_blank">Booking link</a>
             </div>
         </li>
     {% endfor %}
