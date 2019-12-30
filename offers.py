@@ -9,8 +9,8 @@ to_code = 'XXX'
 oneway = {0: 'oneway', 1: 'return'}
 from_date = datetime.date(2020, 1, 28)
 to_date = datetime.date(2020, 2, 15)
-min_days = 10
-max_days = 14
+min_days = 5
+max_days = 8
 min_stopover = datetime.time(0, 45)
 max_stopover = datetime.time(23, 30)
 max_there_flight = datetime.time(10, 0)
@@ -35,7 +35,7 @@ if __name__ == '__main__':
     with open_browser() as driver:
         for flight in flight_list:
             temp_list = []
-            booking_url = build_booking_url(from_date, to_date, number_people, rooms, flight[6], center_distance, review)
+            booking_url = build_booking_url(datetime.datetime.strptime(flight[1], "%Y-%m-%d").date(), datetime.datetime.strptime(flight[12], "%Y-%m-%d").date(), number_people, rooms, flight[6], center_distance, review)
             get_booking_offers(booking_url, temp_list, driver)
             for offer in temp_list:
                 offer_list.append([flight[22]+offer[2]]+flight+offer)

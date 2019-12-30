@@ -84,6 +84,9 @@ def get_flights(url: str, database: list):
             database.append(result)
         except:
             traceback.print_exc()
+    with open('assets/csv/azair.csv', 'w', newline='', encoding='UTF-8') as fp:
+        myFile = csv.writer(fp)
+        myFile.writerows(database)
 
 
 if __name__ == '__main__':
@@ -91,6 +94,3 @@ if __name__ == '__main__':
     azair_url = build_azair_url(oneway, from_code, to_code, from_date, to_date, min_days, max_days, min_stopover, max_stopover,
                     max_there_flight, max_back_flight, number_people, max_change, currency)
     get_flights(azair_url, flight_list)
-    with open('assets/csv/azair.csv', 'w', newline='', encoding='UTF-8') as fp:
-        myFile = csv.writer(fp)
-        myFile.writerows(flight_list)
