@@ -79,7 +79,7 @@ def get_flights(url: str, database: list):
             result = [ft_weekday, ft_date, ft_from_time, ft_from_city_name, ft_from_city_code, ft_to_time, ft_to_city_name,
                       ft_to_city_code, ft_duration, ft_changes, ft_price, fb_weekday, fb_date, fb_from_time,
                       fb_from_city_name, fb_from_city_code, fb_to_time, fb_to_city_name, fb_to_city_code, fb_duration,
-                      fb_changes, fb_price, price, stay_days, link]
+                      fb_changes, fb_price, price, number_people, stay_days, link]
             print(result)
             database.append(result)
         except:

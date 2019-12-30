@@ -7,10 +7,10 @@ from utils import open_browser
 from_code = 'WRO'
 to_code = 'XXX'
 oneway = {0: 'oneway', 1: 'return'}
-from_date = datetime.date(2020, 2, 14)
-to_date = datetime.date(2020, 2, 20)
-min_days = 5
-max_days = 8
+from_date = datetime.date(2020, 1, 28)
+to_date = datetime.date(2020, 2, 15)
+min_days = 10
+max_days = 14
 min_stopover = datetime.time(0, 45)
 max_stopover = datetime.time(23, 30)
 max_there_flight = datetime.time(10, 0)
@@ -38,7 +38,14 @@ if __name__ == '__main__':
             booking_url = build_booking_url(from_date, to_date, number_people, rooms, flight[6], center_distance, review)
             get_booking_offers(booking_url, temp_list, driver)
             for offer in temp_list:
-                offer_list.append(flight+offer)
+                offer_list.append([flight[22]+offer[2]]+flight+offer)
     with open('assets/csv/offers.csv', 'w', newline='', encoding='UTF-8') as fp:
         myFile = csv.writer(fp)
+        myFile.writerow(['total_price', 'ft_weekday', 'ft_date', 'ft_from_time', 'ft_from_city_name',
+                         'ft_from_city_code', 'ft_to_time', 'ft_to_city_name', 'ft_to_city_code',
+                         'ft_duration', 'ft_changes', 'ft_price', 'fb_weekday', 'fb_date', 'fb_from_time',
+                         'fb_from_city_name', 'fb_from_city_code', 'fb_to_time', 'fb_to_city_name', 'fb_to_city_code',
+                         'fb_duration', 'fb_changes', 'fb_price', 'price', 'number_people', 'stay_days',
+                         'f_link', 'hotel_name', 'rank', 'price', 'distance', 'longitiude', 'latitiude', 'b_link'
+                         ])
         myFile.writerows(offer_list)

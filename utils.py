@@ -15,7 +15,7 @@ def connect_to_db():
 def open_browser():
     driver_path = f'geckodriver.exe'
     opts = Options()
-    # opts.headless = True
+    opts.headless = True
     driver = webdriver.Firefox(executable_path=driver_path, options=opts)
     return driver
 
