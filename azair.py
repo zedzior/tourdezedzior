@@ -11,8 +11,8 @@ from utils import take_out_time, take_out_number, convert_date
 from_code = 'WRO'
 to_code = 'XXX'
 oneway = {0: 'oneway', 1: 'return'}
-from_date = datetime.date(2020, 2, 14)
-to_date = datetime.date(2020, 2, 20)
+from_date = datetime.date(2020, 4, 20)
+to_date = datetime.date(2020, 4, 30)
 min_days = 5
 max_days = 8
 min_stopover = datetime.time(0, 45)

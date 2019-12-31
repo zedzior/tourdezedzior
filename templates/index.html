@@ -1,22 +1,24 @@
 {%extends 'layout.html'%}
 
 {% block header %}
-  Check hot offers!
+  Select parameters.
 {% endblock %}
 
 {% block body%}
 <div>
-  <br>
-  <h5>Offers:</h5>
-  <ul>
-    {% for item in offers %}
-        <li>
-            <div>
-                <b>{{item[1]}}</b> na {{item[2]}} dni za {{item[0]}} PLN. <a href="{{item[3]}}" target="_blank">Booking link</a>, <a href="{{url_for('city', city = item[1])}}">More in {{item[1]}}</a>
-            </div>
-        </li>
-    {% endfor %}
-  </ul>
+<form action="{{url_for('results')}}" method="post">
+    {{ form.csrf_token }}
+    {{ form.from_code.label}}
+    {{ form.from_code}}
+    {{ form.to_code.label}}
+    {{ form.to_code}}
+    {{ form.from_date.label}}
+    {{ form.from_date}}
+    {{ form.to_date.label}}
+    {{ form.to_date}}
+
+    <button type="submit" name="cmdSearch">Search</button>
+</form>
 </div>
 
 {% endblock %}

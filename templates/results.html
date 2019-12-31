@@ -1,0 +1,22 @@
+{%extends 'layout.html'%}
+
+{% block header %}
+  Check the best offesr from {{ from_code }} to {{ to_code }}!
+{% endblock %}
+
+{% block body%}
+<div>
+  <br>
+  <h5>Offers:</h5>
+  <ul>
+    {% for item in offers %}
+        <li>
+            <div>
+                <b>{{item[1]}}</b> na {{item[2]}} dni za {{item[0]}} PLN. <a href="{{item[3]}}" target="_blank">Booking link</a>, <a href="{{url_for('city', city = item[1])}}">More in {{item[1]}}</a>
+            </div>
+        </li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% endblock %}

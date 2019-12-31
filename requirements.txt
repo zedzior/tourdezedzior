@@ -6,3 +6,5 @@ psycopg2-binary
 Flask
 Flask-Session
 pandas
+lxml
+flask_wtf
