@@ -1,22 +1,49 @@
 {%extends 'layout.html'%}
 
+{% block head %}
+<style>
+table {
+  margin-bottom: 15px;
+  margin-left: 15px;
+}
+
+</style>
+{% endblock %}
+
 {% block header %}
-  Check the best offesr from {{ from_code }} to {{ to_code }}!
+    Check the best offers!
 {% endblock %}
 
 {% block body%}
 <div>
-  <br>
-  <h5>Offers:</h5>
-  <ul>
-    {% for item in offers %}
-        <li>
-            <div>
-                <b>{{item[1]}}</b> na {{item[2]}} dni za {{item[0]}} PLN. <a href="{{item[3]}}" target="_blank">Booking link</a>, <a href="{{url_for('city', city = item[1])}}">More in {{item[1]}}</a>
-            </div>
-        </li>
+    <br>
+    <h5>Offers:</h5>
+    {% for offer in offers %}
+            <p style="margin-left:15px;margin-bottom:5px">
+                <b>{{offer.stay_days}}</b> days in <b>{{offer.ft_to_city_name}}</b> for <b><span style="color:red">{{offer.price_per_head}} PLN</span></b> per person ({{offer.price_per_head_per_day}} per day).</td>
+            </p>
+            <table>
+                <tr>
+                    <td rowspan="6"><img src="{{offer.pic_link}}"></td>
+                    <td>Start on <b>{{offer.ft_weekday}}</b> {{offer.ft_date}} at <b>{{offer.ft_from_time}}</b>, you are on place at <b>{{offer.ft_to_time}}</b> (flight duration: {{offer.ft_duration}}, changes: {{offer.ft_changes}}).</td>
+                </tr>
+                <tr>
+                    <td>Flight back on <b>{{offer.fb_weekday}}</b> {{offer.fb_date}} at <b>{{offer.fb_from_time}}</b>, you are on place at <b>{{offer.fb_to_time}}</b> (flight duration: {{offer.fb_duration}}, changes: {{offer.fb_changes}}).</td>
+                </tr>
+                <tr>
+                    <td>You sleep in <b><a href="{{offer.b_link}}" target="_blank">{{offer.hotel_name}}<a></b>, rated at <b>{{offer.rank}}</b>, located <b>{{offer.distance}}m</b> from city center.</td>
+                </tr>
+                <tr>
+                    <td><a href="{{offer.f_link}}" target="_blank">Flight details</a></td>
+                </tr>
+                <tr>
+                    <td><a href="{{offer.b_link}}" target="_blank">Booking link</a></td>
+                </tr>
+                <tr>
+                    <td><a href="{{url_for('city', city = offer.ft_to_city_name)}}">More accomodation offers in {{offer.ft_to_city_name}}</a></td>
+                </tr>
+            </table>
     {% endfor %}
-  </ul>
 </div>
 
 {% endblock %}

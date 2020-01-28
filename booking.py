@@ -7,9 +7,9 @@ import traceback
 
 
 # create url query on booking.com
-from_date = datetime.date(2020, 2, 14)
+from_date = datetime.date(2020, 2, 1)
 to_date = datetime.date(2020, 2, 20)
-number_people = 4
+number_people = 2
 rooms = 1
 city = 'Ateny'
 center_distance = 1
@@ -41,7 +41,8 @@ def get_booking_offers(url: str, database: list, driver):
                 distance = get_distance(offer)
                 rank = float(offer.find('div', {'class': 'bui-review-score__badge'}).text.replace(',', '.'))
                 price = take_out_number(offer.find('div', {'class': 'bui-price-display__value prco-inline-block-maker-helper'}).text)
-                record = [hotel_name, rank, price, distance, longitiude, latitiude, link]
+                pic_link = offer.parent.find('img').get('src')
+                record = [hotel_name, rank, price, distance, longitiude, latitiude, link, pic_link]
                 print(record)
                 database.append(record)
         except:

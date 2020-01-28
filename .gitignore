@@ -222,12 +222,14 @@ dane
 .virtual-env
 venv
 csv
-testy.py
+testy
 queries.sql
+todo.txt
+sql_testy
 =======
 .dmypy.json
 dmypy.json
-
+flask_session
 # Pyre type checker
 .pyre/
 >>>>>>> 9e32175feae9d7fd484af6749c27d77513463b8c

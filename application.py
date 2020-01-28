@@ -25,25 +25,26 @@ class search_form(FlaskForm):
 @app.route("/", methods=['GET', 'POST'])
 def index():
     form = search_form()
-    return render_template("index.html", form = form)
+    return render_template("index.html", form=form)
 
 
-@app.route("/results", methods=["POST"])
+@app.route("/results", methods=["POST", "GET"])
 def results():
-    from_code = request.form['from_code']
-    to_code = request.form['to_code']
-    from_date = datetime.datetime.strptime(request.form['from_date'], '%Y-%m-%d').date()
-    to_date = datetime.datetime.strptime(request.form['to_date'], '%Y-%m-%d').date()
-    get_offers(from_code, to_code, from_date, to_date)
+    if request.method == 'POST':
+        from_code = request.form['from_code']
+        to_code = request.form['to_code']
+        from_date = datetime.datetime.strptime(request.form['from_date'], '%Y-%m-%d').date()
+        to_date = datetime.datetime.strptime(request.form['to_date'], '%Y-%m-%d').date()
+        get_offers(from_code, to_code, from_date, to_date)
     offers = get_results()
-    return render_template("results.html", offers=offers, from_code=from_code, to_code=to_code)
+    return render_template("results.html", offers=offers)
 
 
 @app.route("/<string:city>", methods=["GET"])
 def city(city):
     offers = get_results_for_city(city)
-    return render_template("city.html", offers=offers)
+    return render_template("results.html", offers=offers)
 
 
-if __name__  == '__main__':
+if __name__ == '__main__':
     app.run(debug=True)

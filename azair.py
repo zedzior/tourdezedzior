@@ -46,7 +46,7 @@ def get_flights(url: str, database: list):
         try:
             # get data of flight there
             flight_there = flight.div.findAll('p', recursive=False)[0]
-            ft_weekday = flight_there.find('span', {'class': 'date'}).text.split(' ')[0].lower()
+            ft_weekday = flight_there.find('span', {'class': 'date'}).text.split(' ')[0]
             ft_date = convert_date(flight_there.find('span', {'class': 'date'}).text.split(' ')[1])
             ft_from_time = flight_there.find('span', {'class': 'from'}).text.split(' ')[0]
             ft_from_city_name = flight_there.find('span', {'class': 'from'}).text.split(' ')[1]

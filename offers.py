@@ -25,7 +25,7 @@ def get_offers(from_code, to_code, from_date, to_date):
     azair_url = build_azair_url(oneway, from_code, to_code, from_date, to_date, min_days, max_days, min_stopover,
                                 max_stopover, max_there_flight, max_back_flight, number_people, max_change, currency)
     get_flights(azair_url, flight_list)
-    # loop through flight list and add accomodation offers form booking.com
+    # loop through flight list and add accomodation offers from booking.com
     offer_list = []
     with open_browser() as driver:
         for flight in flight_list:
@@ -41,7 +41,7 @@ def get_offers(from_code, to_code, from_date, to_date):
                          'ft_duration', 'ft_changes', 'ft_price', 'fb_weekday', 'fb_date', 'fb_from_time',
                          'fb_from_city_name', 'fb_from_city_code', 'fb_to_time', 'fb_to_city_name', 'fb_to_city_code',
                          'fb_duration', 'fb_changes', 'fb_price', 'price', 'number_people', 'stay_days',
-                         'f_link', 'hotel_name', 'rank', 'price', 'distance', 'longitiude', 'latitiude', 'b_link'
+                         'f_link', 'hotel_name', 'rank', 'price', 'distance', 'longitiude', 'latitiude', 'b_link', 'pic_link'
                          ])
         myFile.writerows(offer_list)
 
