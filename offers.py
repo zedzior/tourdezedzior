@@ -5,23 +5,18 @@ from azair import build_azair_url, get_flights
 from utils import open_browser
 
 
-def get_offers(from_code, to_code, from_date, to_date):
+def get_offers(from_code, to_code, from_date, to_date, min_days, max_days, number_people,center_distance, rooms, review, room_types):
     # build url for azair.eu with all parameters and get list of flights
     flight_list = []
     oneway = {0: 'oneway', 1: 'return'}
-    min_days = 5
-    max_days = 8
+
     min_stopover = datetime.time(0, 45)
     max_stopover = datetime.time(23, 30)
     max_there_flight = datetime.time(10, 0)
     max_back_flight = datetime.time(10, 0)
-    number_people = 2
     max_change = 1
     currency = 'PLN'
 
-    rooms = 1
-    center_distance = 1
-    review = 8
     azair_url = build_azair_url(oneway, from_code, to_code, from_date, to_date, min_days, max_days, min_stopover,
                                 max_stopover, max_there_flight, max_back_flight, number_people, max_change, currency)
     get_flights(azair_url, flight_list)
@@ -30,7 +25,7 @@ def get_offers(from_code, to_code, from_date, to_date):
     with open_browser() as driver:
         for flight in flight_list:
             temp_list = []
-            booking_url = build_booking_url(datetime.datetime.strptime(flight[1], "%Y-%m-%d").date(), datetime.datetime.strptime(flight[12], "%Y-%m-%d").date(), number_people, rooms, flight[6], center_distance, review)
+            booking_url = build_booking_url(datetime.datetime.strptime(flight[1], "%Y-%m-%d").date(), datetime.datetime.strptime(flight[12], "%Y-%m-%d").date(), number_people, rooms, flight[6], center_distance, review, room_types)
             get_booking_offers(booking_url, temp_list, driver)
             for offer in temp_list:
                 offer_list.append([flight[22]+offer[2]]+flight+offer)
