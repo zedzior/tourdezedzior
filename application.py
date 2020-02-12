@@ -4,7 +4,7 @@ from panda import get_results, get_results_for_city
 from offers import get_offers
 from flask_wtf import FlaskForm
 from wtforms import StringField, BooleanField, SelectField
-from wtforms.fields.html5 import DateField, IntegerField
+from wtforms.fields.html5 import DateField, IntegerField, SearchField
 import datetime
 
 
@@ -16,7 +16,7 @@ Session(app)
 
 
 class search_form(FlaskForm):
-    from_code = StringField('From City', default='WRO')
+    from_code = SearchField('From City', default='WRO')
     to_code = StringField('To City', default='XXX')
     from_date = DateField('From Date', format='%Y-%m-%d', default=datetime.date(2020, 3, 16))
     to_date = DateField('To Date', format='%Y-%m-%d', default=datetime.date(2020, 3, 22))
@@ -26,7 +26,7 @@ class search_form(FlaskForm):
     rating = SelectField('Rating', choices=[(5, '+5'), (6, '+6'), (7, '+7'), (8, '+8'), (9, '+9')], default=9)
     distance = IntegerField('Center Distance', default=1)
     rooms = IntegerField('Rooms', default=1)
-    apartment = BooleanField('Apartments')
+    apartment = BooleanField('Apartments', default=True)
     hostel = BooleanField('Hostels', default=True)
     hotel = BooleanField('Hotels', default=True)
     guest_house = BooleanField('Guest Houses', default=True)

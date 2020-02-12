@@ -10,7 +10,7 @@
     {{ form.csrf_token }}
     <div>
         {{ form.from_code.label}}
-        {{ form.from_code}}
+        {{ form.from_code }}     <!--{{ form.from_code(placeholder='City', **{'ng-model': 'NameModel'}) }}-->
         {{ form.to_code.label}}
         {{ form.to_code}}
     </div>
@@ -38,11 +38,11 @@
     </div>
     <div>
         {{ form.apartment}}
-        {{ form.apartment.label}}<br>
+        {{ form.apartment.label}}
         {{ form.hostel}}
-        {{ form.hostel.label}}<br>
+        {{ form.hostel.label}}
         {{ form.hotel}}
-        {{ form.hotel.label}}<br>
+        {{ form.hotel.label}}
         {{ form.guest_house}}
         {{ form.guest_house.label}}
     </div>
