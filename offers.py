@@ -5,7 +5,7 @@ from azair import build_azair_url, get_flights
 from utils import open_browser
 
 
-def get_offers(from_code, to_code, from_date, to_date, min_days, max_days, number_people,center_distance, rooms, review, room_types):
+def get_offers_from_web(from_code, to_code, from_date, to_date, min_days, max_days, number_people, center_distance, rooms, review, room_types):
     # build url for azair.eu with all parameters and get list of flights
     flight_list = []
     oneway = {0: 'oneway', 1: 'return'}
@@ -60,4 +60,4 @@ if __name__ == '__main__':
     rooms = 1
     center_distance = 1
     review = 8
-    get_offers(from_code, to_code, from_date, to_date)
+    get_offers_from_web(from_code, to_code, from_date, to_date)

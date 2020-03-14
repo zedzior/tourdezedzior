@@ -1,49 +1,71 @@
 {%extends 'layout.html'%}
 
 {% block head %}
-<style>
-table {
-  margin-bottom: 15px;
-  margin-left: 15px;
-}
-
-</style>
-{% endblock %}
-
-{% block header %}
-    Check the best offers!
 {% endblock %}
 
 {% block body%}
-<div>
-    <br>
-    <h5>Offers:</h5>
+<div id="container">
+    <p id="container-title">Check this out!</p>
+    <ul class="all-offers-container">
     {% for offer in offers %}
-            <p style="margin-left:15px;margin-bottom:5px">
-                <b>{{offer.stay_days}}</b> days in <b>{{offer.ft_to_city_name}}</b> for <b><span style="color:red">{{offer.price_per_head}} PLN</span></b> per person ({{offer.price_per_head_per_day}} per day).</td>
-            </p>
-            <table>
-                <tr>
-                    <td rowspan="6"><img src="{{offer.pic_link}}"></td>
-                    <td>Start on <b>{{offer.ft_weekday}}</b> {{offer.ft_date}} at <b>{{offer.ft_from_time}}</b>, you are on place at <b>{{offer.ft_to_time}}</b> (flight duration: {{offer.ft_duration}}, changes: {{offer.ft_changes}}).</td>
-                </tr>
-                <tr>
-                    <td>Flight back on <b>{{offer.fb_weekday}}</b> {{offer.fb_date}} at <b>{{offer.fb_from_time}}</b>, you are on place at <b>{{offer.fb_to_time}}</b> (flight duration: {{offer.fb_duration}}, changes: {{offer.fb_changes}}).</td>
-                </tr>
-                <tr>
-                    <td>You sleep in <b><a href="{{offer.b_link}}" target="_blank">{{offer.hotel_name}}<a></b>, rated at <b>{{offer.rank}}</b>, located <b>{{offer.distance}}m</b> from city center.</td>
-                </tr>
-                <tr>
-                    <td><a href="{{offer.f_link}}" target="_blank">Flight details</a></td>
-                </tr>
-                <tr>
-                    <td><a href="{{offer.b_link}}" target="_blank">Booking link</a></td>
-                </tr>
-                <tr>
-                    <td><a href="{{url_for('city', city = offer.ft_to_city_name)}}">More accomodation offers in {{offer.ft_to_city_name}}</a></td>
-                </tr>
-            </table>
+        <li class="offer-container">
+            <img class="offer-image" src="{{offer.pic_link}}">
+            <ul class="offer-description">
+                <li><b>{{offer.stay_days}}</b> days in <b>{{offer.ft_to_city_name}}</b> for <b><span style="color:red">{{offer.price_per_head}} PLN</span></b> per person ({{offer.price_per_head_per_day}} per day).</li>
+                <li>Outbound flight: departure <b>{{offer.ft_weekday}}</b> {{offer.ft_date}} <b>{{offer.ft_from_time}}</b>, arrival <b>{{offer.ft_to_time}}</b> (duration: {{offer.ft_duration}}, changes: {{offer.ft_changes}}).</li>
+                <li>Inbound flight: <b>{{offer.fb_weekday}}</b> {{offer.fb_date}}  <b>{{offer.fb_from_time}}</b>, arrival <b>{{offer.fb_to_time}}</b> (duration: {{offer.fb_duration}}, changes: {{offer.fb_changes}})</li>
+                <li>Accomodation: <b><a href="{{offer.b_link}}" target="_blank">{{offer.hotel_name}}</a></b>, rated at <b>{{offer.rank}}</b>, located <b>{{offer.distance}}m</b> from city center.</li>
+                <li><a href="{{url_for('city', city = offer.ft_to_city_name)}}">More accomodation offers in {{offer.ft_to_city_name}}</a></li>
+                <li><a href="{{offer.f_link}}" target="_blank">Flight details</a></li>
+            </ul>
+        </li>
     {% endfor %}
+    </ul>
 </div>
+{% endblock %}
 
+{% block sidebar %}
+<form id="side-form" action="{{url_for('results')}}" method="post">
+    {{ form.csrf_token }}
+        {{ form.from_code.label}}
+        <br>{{ form.from_code }}
+        <br>{{ form.to_code.label}}
+        <br>{{ form.to_code}}
+        <br>{{ form.from_date.label}}
+        <br>{{ form.from_date}}
+        <br>{{ form.to_date.label}}
+        <br>{{ form.to_date}}
+        <br>{{form.travellers.label}}
+        <br>{{form.travellers}}
+        <br>{{form.min_days.label}}
+        <br>{{form.min_days}}
+        <br>{{form.max_days.label}}
+        <br>{{form.max_days}}
+        <br>{{form.rating.label}}
+        <br>{{form.rating}}
+        <br>{{form.distance.label}}
+        <br>{{form.distance}}
+        <br>{{form.rooms.label}}
+        <br>{{form.rooms}}
+    <span class="form-check-box">
+        {{ form.apartment}}
+        {{ form.apartment.label}}
+    </span>
+    <br>
+    <span class="form-check-box">
+        {{ form.hostel}}
+        {{ form.hostel.label}}
+    </span>
+    <br>
+    <span class="form-check-box">
+        {{ form.hotel}}
+        {{ form.hotel.label}}
+    </span>
+    <br>
+    <span class="form-check-box">
+        {{ form.guest_house}}
+        {{ form.guest_house.label}}
+    </span>
+    <button type="submit" name="cmdSearch">Search</button>
+</form>
 {% endblock %}

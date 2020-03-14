@@ -46,7 +46,7 @@ class Offer:
         self.price_per_head_per_day = int(self.total_price / self.number_people / self.stay_days)
 
 
-def get_results():
+def get_results_from_csv():
     df = pd.read_csv('assets/csv/offers.csv')
     df = df.sort_values('total_price')
     cities = df.ft_to_city_name.unique()

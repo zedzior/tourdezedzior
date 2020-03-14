@@ -1,7 +1,7 @@
 from flask import Flask, session, render_template, request
 from flask_session import Session
-from panda import get_results, get_results_for_city
-from offers import get_offers
+from panda import get_results_from_csv, get_results_for_city
+from offers import get_offers_from_web
 from flask_wtf import FlaskForm
 from wtforms import StringField, BooleanField, SelectField
 from wtforms.fields.html5 import DateField, IntegerField, SearchField
@@ -37,7 +37,7 @@ def index():
     form = search_form()
     return render_template("index.html", form=form)
 
-# sfasffa
+
 @app.route("/results", methods=["POST", "GET"])
 def results():
     if request.method == 'POST':
@@ -60,9 +60,10 @@ def results():
         print(room_types_raw)
         room_types = list(map(lambda x: x == 'y', room_types_raw))
         print(room_types)
-        get_offers(from_code, to_code, from_date, to_date, min_days, max_days, travellers, distance, rooms, rating, room_types)
-    offers = get_results()
-    return render_template("results.html", offers=offers)
+        get_offers_from_web(from_code, to_code, from_date, to_date, min_days, max_days, travellers, distance, rooms, rating, room_types)
+    offers = get_results_from_csv()
+    form = search_form()
+    return render_template("results.html", offers=offers, form=form)
 
 
 @app.route("/<string:city>", methods=["GET"])
